@@ -44,7 +44,8 @@ dependencies {
     implementation(files("C:\\Users\\onbiron\\Downloads\\ScoscheSDK24_V_1_0.aar"))
     implementation ("androidx.recyclerview:recyclerview:1.3.1")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
-
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.3.1")
+    implementation ("androidx.lifecycle:lifecycle-livedata:2.3.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

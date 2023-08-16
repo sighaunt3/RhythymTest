@@ -32,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:indeterminateTint="@android:color/white"
-        app:layout_constraintStart_toEndOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scanneddevices"

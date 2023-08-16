@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.scosche.sdk24.RhythmDevice
 
@@ -22,6 +23,8 @@ class ScannedDeviceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
+        val sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        val data = sharedViewModel.age_data.value
         val view: View = inflater.inflate(R.layout.fragment_device_scanned, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.scanneddevices)
         recyclerView?.adapter = ScannedDeviceRecyclerViewAdapter(

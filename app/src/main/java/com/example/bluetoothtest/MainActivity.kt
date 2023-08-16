@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import com.scosche.sdk24.ErrorType
 import com.scosche.sdk24.FitFileContent.FitFileInfo
 import com.scosche.sdk24.RhythmDevice
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     private lateinit var fileName: String
     private lateinit var data: ByteArray
     private var isRhythm24: Boolean = false
+    private lateinit var sharedViewModel: SharedViewModel
+
 
     fun getSdk(): ScoscheSDK24? {
         return sdk
@@ -31,20 +34,40 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
         setContentView(com.example.bluetoothtest.R.layout.activity_main)
 
         sdk = ScoscheSDK24(this)
-
+        println("main")
+        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+        println(sharedViewModel.tmp)
         var fragment: Fragment? = null
-        try {
-            fragment = ScannedDeviceFragment::class.java.newInstance()
+        sharedViewModel.tmp.observe(this){
+            println("cool")
+            var xd: Fragment = ScannedDeviceFragment::class.java.newInstance()
             supportFragmentManager.beginTransaction().replace(
                 com.example.bluetoothtest.R.id.flContent,
-                fragment,
+                xd,
                 "ScannedDeviceFragment"
-            ).commit()
+            ).addToBackStack(null).commit()
+            println("HERE")
+            sdk.startScan(this)
+
+        }
+
+
+        try {
+
+                println("testtt")
+                fragment = LoginFragment::class.java.newInstance()
+                supportFragmentManager.beginTransaction().replace(
+                    com.example.bluetoothtest.R.id.flContent,
+                    fragment,
+                    "LoginFragment"
+                ).addToBackStack(null).commit()
+                println("HERE")
+
+            println("test")
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        sdk.startScan(this)
     }
 
     override fun deviceFound(p0: RhythmDevice?) {
