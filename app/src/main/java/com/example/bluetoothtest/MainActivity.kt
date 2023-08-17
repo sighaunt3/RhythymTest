@@ -100,9 +100,13 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
         }
     }
     override fun deviceConnected(p0: RhythmDevice?) {
-        val rhythmPlusFragment: Fragment = RhythmPlusFragment::class.java.newInstance()
-        supportFragmentManager.beginTransaction().replace(com.example.bluetoothtest.R.id.flContent, rhythmPlusFragment, "RhythmPlusFragment").commit()
-        isRhythm24 = false
+        runOnUiThread {
+            val rhythmPlusFragment = RhythmPlusFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(com.example.bluetoothtest.R.id.flContent, rhythmPlusFragment, "RhythmPlusFragment")
+                .commit()
+            isRhythm24 = false
+        }
     }
 
     override fun updateHeartRate(heartRate: String?) {
