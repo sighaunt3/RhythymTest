@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 
 
 class LoginFragment: Fragment() {
+    private val sharedViewModel: SharedViewModel
+        get() = (requireActivity().application as Helper).sharedViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -26,7 +27,6 @@ class LoginFragment: Fragment() {
         val height = view.findViewById<EditText>(R.id.height_txt)
         val weight = view.findViewById<EditText>(R.id.weight_txt)
         val button = view.findViewById<Button>(R.id.button)
-        val sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         button.setOnClickListener{
             sharedViewModel.age_data.value = age.text.toString()
             sharedViewModel.height_data.value = height.text.toString()

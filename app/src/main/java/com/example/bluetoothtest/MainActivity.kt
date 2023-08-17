@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import com.scosche.sdk24.ErrorType
 import com.scosche.sdk24.FitFileContent.FitFileInfo
 import com.scosche.sdk24.RhythmDevice
@@ -22,8 +21,8 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     private lateinit var fileName: String
     private lateinit var data: ByteArray
     private var isRhythm24: Boolean = false
-    private lateinit var sharedViewModel: SharedViewModel
-
+    private val sharedViewModel: SharedViewModel
+        get() = (application as Helper).sharedViewModel
 
     fun getSdk(): ScoscheSDK24? {
         return sdk
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
 
         sdk = ScoscheSDK24(this)
         println("main")
-        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         println(sharedViewModel.tmp)
         var fragment: Fragment? = null
         sharedViewModel.tmp.observe(this){
@@ -126,10 +124,10 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
             //TODO: create method to get active fragment
 
 
-                val f = fragmentManager.findFragmentByTag("RhythmPlusFragment")
-                if (f != null) {
-                    (f as RhythmPlusFragment).updateHeartRate("???")
-                }
+            val f = fragmentManager.findFragmentByTag("RhythmPlusFragment")
+            if (f != null) {
+                (f as RhythmPlusFragment).updateHeartRate("???")
+            }
 
         }
     }
