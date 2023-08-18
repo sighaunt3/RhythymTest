@@ -1,6 +1,7 @@
 package com.example.bluetoothtest
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +13,8 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.scosche.sdk24.RhythmDevice
 
 
 class RhythmPlusFragment : Fragment() {
@@ -22,6 +25,9 @@ class RhythmPlusFragment : Fragment() {
     var count:Int = 0
     var bmr:Double = 0.0
     private val handler = Handler()
+    private var mListener: ScannedDeviceFragment.OnListFragmentInteractionListener? = null
+    private var recyclerView: RecyclerView? = null
+    private var adapter: ScannedDeviceRecyclerViewAdapter? = null
 
     private var firmwareVersionField: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,19 +44,14 @@ class RhythmPlusFragment : Fragment() {
         var age = sharedview.age_data.value
         var height = sharedview.height_data.value
         var weight = sharedview.weight_data.value
-        var finage = view?.findViewById<TextView>(R.id.txt_age)
-        var finheight = view?.findViewById<TextView>(R.id.txt_height)
-        var finweight = view?.findViewById<TextView>(R.id.txt_weight)
-        var cal = view?.findViewById<TextView>(R.id.calories)
 
+        var cal = view?.findViewById<TextView>(R.id.calories)
         heartRateField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.heart_rate)
         batteryField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.batteryLevelField)
         firmwareVersionField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.firmwareVersionField)
-        finage?.text = age
         sharedview.hr.value = 0.0
         cal?.text = "0.0"
-        finweight?.text = weight
-        finheight?.text = height
+
 
         requireActivity().startForegroundService(
             Intent(
@@ -58,6 +59,13 @@ class RhythmPlusFragment : Fragment() {
                 BackgroundService::class.java
             )
         )
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rech)
+        recyclerView?.adapter = ScannedDeviceRecyclerViewAdapter(
+            ArrayList<RhythmDevice>(), mListener, (activity as MainActivity?)?.getSdk()!!,
+            (activity as MainActivity?)!!,
+            (activity as MainActivity?)!!
+        )
+        adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
 
         val permission3 = android.Manifest.permission.POST_NOTIFICATIONS
         val requestCode3 = 2020 // A unique request code
@@ -77,6 +85,58 @@ class RhythmPlusFragment : Fragment() {
 
         return view
     }
+    override fun onAttach(context: Context) {
+
+        super.onAttach(context)
+        if (context is ScannedDeviceFragment.OnListFragmentInteractionListener) {
+            mListener = context
+        } else {
+            throw RuntimeException(
+                context.toString()
+                        + " must implement OnListFragmentInteractionListener"
+            )
+        }
+    }
+
+
+    val devices: List<RhythmDevice>
+        get() {
+            adapter = (recyclerView!!.adapter as ScannedDeviceRecyclerViewAdapter?)
+            return adapter?.getDevices()!!
+        }
+
+    interface OnListFragmentInteractionListener
+
+    fun handleBluetoothDevice(device: RhythmDevice?) {
+        if (adapter != null && device != null) {
+            if (adapter?.addDevice(device) == true) {
+
+                adapter?.notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun removeDevice(device: RhythmDevice) {
+        for (rhythmDevice: RhythmDevice in adapter?.getDevices()!!) {
+            if ((rhythmDevice.getName() == device.getName())) {
+                val mutableDevicesList = adapter?.getDevices()?.toMutableList()
+                mutableDevicesList?.remove(rhythmDevice)
+
+                val newAdapter = ScannedDeviceRecyclerViewAdapter(
+                    (mutableDevicesList ?: emptyList()) as MutableList<RhythmDevice>, mListener,
+                    (activity as MainActivity?)?.getSdk()!!,
+                    (activity as MainActivity?)!!,
+                    (activity as MainActivity?)!!
+                )
+
+                recyclerView?.adapter = newAdapter // Set the new adapter
+            }
+        }
+    }
+
+    companion object {
+        private var adapter: ScannedDeviceRecyclerViewAdapter? = null
+    }
     private val sharedview: SharedViewModel
         get() = (requireActivity().application as Helper).sharedViewModel
     fun updateHeartRate(heartRate: String?) {
@@ -94,7 +154,5 @@ class RhythmPlusFragment : Fragment() {
         batteryField!!.text = batteryLevel.toString()
     }
 
-    fun updateFirmwareVersion(value: String?) {
-        firmwareVersionField!!.text = value
-    }
+
 }

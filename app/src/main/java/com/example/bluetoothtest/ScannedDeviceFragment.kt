@@ -73,6 +73,7 @@ class ScannedDeviceFragment : Fragment() {
     fun handleBluetoothDevice(device: RhythmDevice?) {
         if (adapter != null && device != null) {
             if (adapter?.addDevice(device) == true) {
+
                 adapter?.notifyDataSetChanged()
             }
         }

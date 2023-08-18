@@ -41,11 +41,11 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
         var fragment: Fragment? = null
         sharedViewModel.tmp.observe(this){
             println("cool")
-            var xd: Fragment = ScannedDeviceFragment::class.java.newInstance()
+            var xd: Fragment = RhythmPlusFragment::class.java.newInstance()
             supportFragmentManager.beginTransaction().replace(
                 com.example.bluetoothtest.R.id.flContent,
                 xd,
-                "ScannedDeviceFragment"
+                "RhythmPlusFragment"
             ).addToBackStack(null).commit()
             println("HERE")
             sdk.startScan(this)
@@ -74,10 +74,10 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     override fun deviceFound(p0: RhythmDevice?) {
 
         val fragmentManager: FragmentManager = supportFragmentManager
-        val f: Fragment? = fragmentManager.findFragmentByTag("ScannedDeviceFragment")
+        val f: Fragment? = fragmentManager.findFragmentByTag("RhythmPlusFragment")
 
         if (f != null && p0!!.getName() != null) {
-            (f as ScannedDeviceFragment).handleBluetoothDevice(p0)
+            (f as RhythmPlusFragment).handleBluetoothDevice(p0)
         }
     }
 
@@ -160,9 +160,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
         runOnUiThread {
             val fragmentManager = supportFragmentManager
             val f = fragmentManager.findFragmentByTag("RhythmPlusFragment")
-            if (f != null) {
-                (f as RhythmPlusFragment).updateFirmwareVersion(value)
-            }
+
         }
     }
 

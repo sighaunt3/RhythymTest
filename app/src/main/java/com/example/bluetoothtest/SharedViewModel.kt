@@ -13,4 +13,5 @@ class SharedViewModel: ViewModel() {
     val heart_rate: MutableLiveData<String> = MutableLiveData()
 
 
+
 }
