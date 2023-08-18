@@ -17,6 +17,7 @@ import com.scosche.sdk24.ScoscheSDK24
 
 class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDeviceCallback, RhythmSDKFitFileCallback, ScannedDeviceFragment.OnListFragmentInteractionListener {
 
+
     private lateinit var sdk: ScoscheSDK24
     private lateinit var fileName: String
     private lateinit var data: ByteArray
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.bluetoothtest.R.layout.activity_main)
+
+
 
         sdk = ScoscheSDK24(this)
         println("main")
@@ -88,6 +91,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
                 this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 1
             )        }
+
     }
 
     override fun deviceLost(device: RhythmDevice?) {

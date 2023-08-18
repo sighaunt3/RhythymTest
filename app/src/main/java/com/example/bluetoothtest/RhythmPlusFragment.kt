@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 
 
@@ -50,6 +51,7 @@ class RhythmPlusFragment : Fragment() {
         cal?.text = "0.0"
         finweight?.text = weight
         finheight?.text = height
+
         requireActivity().startForegroundService(
             Intent(
                 context,
@@ -57,6 +59,9 @@ class RhythmPlusFragment : Fragment() {
             )
         )
 
+        val permission3 = android.Manifest.permission.POST_NOTIFICATIONS
+        val requestCode3 = 2020 // A unique request code
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission3), requestCode3)
         sharedview.tmp2.observe(viewLifecycleOwner){
             var total_result = sharedview.hr.value!! /60.0
             bmr = (weight.toString().toDouble() * 10) + (6.25*height.toString().toDouble()) + (age.toString().toDouble()*5) + 5

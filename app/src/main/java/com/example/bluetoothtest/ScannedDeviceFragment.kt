@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,9 @@ import com.scosche.sdk24.RhythmDevice
 
 
 class ScannedDeviceFragment : Fragment() {
+    private val BLUETOOTH_CODE = 1
+    private val BLUETOOTH_CODE2 = 1
+    private val BLUETOOTH_CODE3 = 1
     private var mListener: OnListFragmentInteractionListener? = null
     private var recyclerView: RecyclerView? = null
     private var adapter: ScannedDeviceRecyclerViewAdapter? = null
@@ -23,6 +27,14 @@ class ScannedDeviceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
+        val permission = android.Manifest.permission.BLUETOOTH_SCAN
+        val requestCode = 123 // A unique request code
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
+        val permission2 = android.Manifest.permission.BLUETOOTH_CONNECT
+        val requestCode2 = 2002 // A unique request code
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission2), requestCode2)
+
+
         val sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         val data = sharedViewModel.age_data.value
         val view: View = inflater.inflate(R.layout.fragment_device_scanned, container, false)
@@ -37,6 +49,7 @@ class ScannedDeviceFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
+
         super.onAttach(context)
         if (context is OnListFragmentInteractionListener) {
             mListener = context
@@ -47,6 +60,7 @@ class ScannedDeviceFragment : Fragment() {
             )
         }
     }
+
 
     val devices: List<RhythmDevice>
         get() {

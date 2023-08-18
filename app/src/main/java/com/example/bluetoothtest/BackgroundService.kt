@@ -1,5 +1,6 @@
 package com.example.bluetoothtest
 
+import android.app.Activity
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -10,6 +11,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
