@@ -25,10 +25,9 @@ class RhythmPlusFragment : Fragment() {
     var count:Int = 0
     var bmr:Double = 0.0
     private val handler = Handler()
-    private var mListener: ScannedDeviceFragment.OnListFragmentInteractionListener? = null
+    private var mListener: OnListFragmentInteractionListener? = null
     private var recyclerView: RecyclerView? = null
     private var adapter: ScannedDeviceRecyclerViewAdapter? = null
-
     private var firmwareVersionField: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +45,24 @@ class RhythmPlusFragment : Fragment() {
         var weight = sharedview.weight_data.value
 
         var cal = view?.findViewById<TextView>(R.id.calories)
+        val permission = android.Manifest.permission.BLUETOOTH_SCAN
+        val requestCode = 123 // A unique request cod
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
+        val permission2 = android.Manifest.permission.BLUETOOTH_CONNECT
+        val requestCode2 = 2002 // A unique request code
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission2), requestCode2)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rech)
+        recyclerView?.adapter = ScannedDeviceRecyclerViewAdapter(
+            ArrayList<RhythmDevice>(), mListener, (activity as MainActivity?)?.getSdk()!!,
+            (activity as MainActivity?)!!,
+            (activity as MainActivity?)!!
+        )
+        adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
+        println("bart3111")
+        println(adapter!!.itemCount)
+        val permission3 = android.Manifest.permission.POST_NOTIFICATIONS
+        val requestCode3 = 2020 // A unique request code
+        ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission3), requestCode3)
         heartRateField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.heart_rate)
         batteryField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.batteryLevelField)
         firmwareVersionField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.firmwareVersionField)
@@ -59,17 +76,7 @@ class RhythmPlusFragment : Fragment() {
                 BackgroundService::class.java
             )
         )
-        val recyclerView = view.findViewById<RecyclerView>(R.id.rech)
-        recyclerView?.adapter = ScannedDeviceRecyclerViewAdapter(
-            ArrayList<RhythmDevice>(), mListener, (activity as MainActivity?)?.getSdk()!!,
-            (activity as MainActivity?)!!,
-            (activity as MainActivity?)!!
-        )
-        adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
 
-        val permission3 = android.Manifest.permission.POST_NOTIFICATIONS
-        val requestCode3 = 2020 // A unique request code
-        ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission3), requestCode3)
         sharedview.tmp2.observe(viewLifecycleOwner){
             var total_result = sharedview.hr.value!! /60.0
             bmr = (weight.toString().toDouble() * 10) + (6.25*height.toString().toDouble()) + (age.toString().toDouble()*5) + 5
@@ -85,10 +92,12 @@ class RhythmPlusFragment : Fragment() {
 
         return view
     }
+    interface OnListFragmentInteractionListener
+
     override fun onAttach(context: Context) {
 
         super.onAttach(context)
-        if (context is ScannedDeviceFragment.OnListFragmentInteractionListener) {
+        if (context is OnListFragmentInteractionListener) {
             mListener = context
         } else {
             throw RuntimeException(
@@ -105,9 +114,10 @@ class RhythmPlusFragment : Fragment() {
             return adapter?.getDevices()!!
         }
 
-    interface OnListFragmentInteractionListener
 
+    @SuppressLint("NotifyDataSetChanged")
     fun handleBluetoothDevice(device: RhythmDevice?) {
+        println("handle")
         if (adapter != null && device != null) {
             if (adapter?.addDevice(device) == true) {
 

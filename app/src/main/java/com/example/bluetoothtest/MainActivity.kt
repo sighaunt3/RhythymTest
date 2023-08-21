@@ -15,7 +15,7 @@ import com.scosche.sdk24.RhythmSDKScanningCallback
 import com.scosche.sdk24.ScoscheSDK24
 
 
-class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDeviceCallback, RhythmSDKFitFileCallback, ScannedDeviceFragment.OnListFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDeviceCallback, RhythmSDKFitFileCallback, RhythmPlusFragment.OnListFragmentInteractionListener {
 
 
     private lateinit var sdk: ScoscheSDK24
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     }
 
     override fun deviceFound(p0: RhythmDevice?) {
-
+        println("found")
         val fragmentManager: FragmentManager = supportFragmentManager
         val f: Fragment? = fragmentManager.findFragmentByTag("RhythmPlusFragment")
 
@@ -95,14 +95,16 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     }
 
     override fun deviceLost(device: RhythmDevice?) {
+        println("DEVICE LOST")
         val fragmentManager = supportFragmentManager
-        val f = fragmentManager.findFragmentByTag("ScannedDeviceFragment")
+        val f = fragmentManager.findFragmentByTag("RhythmPlusFragment")
         if (f != null) {
-            (f as ScannedDeviceFragment).removeDevice(device!!)
+            (f as RhythmPlusFragment).removeDevice(device!!)
         }
     }
     override fun deviceConnected(p0: RhythmDevice?) {
         runOnUiThread {
+            println("DEVICE CONNECTED")
             val rhythmPlusFragment = RhythmPlusFragment()
             supportFragmentManager.beginTransaction()
                 .replace(com.example.bluetoothtest.R.id.flContent, rhythmPlusFragment, "RhythmPlusFragment")
