@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     }
 
     override fun deviceFound(p0: RhythmDevice?) {
-        println("found")
+        println("ezhel ais cash")
         val fragmentManager: FragmentManager = supportFragmentManager
         val f: Fragment? = fragmentManager.findFragmentByTag("RhythmPlusFragment")
 
@@ -103,6 +103,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
         }
     }
     override fun deviceConnected(p0: RhythmDevice?) {
+
         runOnUiThread {
             println("DEVICE CONNECTED")
             val rhythmPlusFragment = RhythmPlusFragment()

@@ -74,6 +74,7 @@ class ScannedDeviceRecyclerViewAdapter(
                 if (null != mListener && mItem != null) {
                     // fragment is attached to one) that an item has been selected.
                     sdk.connectDevice(mItem, callback, fitFileCallback)
+
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.example.bluetoothtest
 
 import android.annotation.SuppressLint
+import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -9,12 +10,14 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.scosche.sdk24.RhythmDevice
+import com.scosche.sdk24.ScoscheSDK24
 
 
 class RhythmPlusFragment : Fragment() {
@@ -23,6 +26,7 @@ class RhythmPlusFragment : Fragment() {
     var total_calories:Double = 0.0
     var adjustedbmr:Double = 0.0
     var count:Int = 0
+
     var bmr:Double = 0.0
     private val handler = Handler()
     private var mListener: OnListFragmentInteractionListener? = null
@@ -43,7 +47,7 @@ class RhythmPlusFragment : Fragment() {
         var age = sharedview.age_data.value
         var height = sharedview.height_data.value
         var weight = sharedview.weight_data.value
-
+        val button = view.findViewById<Button>(R.id.button3)
         var cal = view?.findViewById<TextView>(R.id.calories)
         val permission = android.Manifest.permission.BLUETOOTH_SCAN
         val requestCode = 123 // A unique request cod
@@ -68,14 +72,25 @@ class RhythmPlusFragment : Fragment() {
         firmwareVersionField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.firmwareVersionField)
         sharedview.hr.value = 0.0
         cal?.text = "0.0"
-
-
         requireActivity().startForegroundService(
             Intent(
                 context,
                 BackgroundService::class.java
             )
         )
+
+
+        button.setOnClickListener {
+            val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+            if (mBluetoothAdapter.isEnabled) {
+                mBluetoothAdapter.disable()
+                mBluetoothAdapter.enable()
+                requireActivity().stopService(Intent(context, BackgroundService::class.java))
+
+            }
+
+
+        }
 
         sharedview.tmp2.observe(viewLifecycleOwner){
             var total_result = sharedview.hr.value!! /60.0
@@ -140,6 +155,7 @@ class RhythmPlusFragment : Fragment() {
                 )
 
                 recyclerView?.adapter = newAdapter // Set the new adapter
+                println("NEW RECYCLER")
             }
         }
     }
