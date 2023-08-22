@@ -1,5 +1,6 @@
 package com.example.bluetoothtest
 
+import android.app.Application
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +15,11 @@ import com.scosche.sdk24.ScoscheSDK24
 class ScannedDeviceRecyclerViewAdapter(
     private val devices: MutableList<RhythmDevice>,
     private val mListener: RhythmPlusFragment.OnListFragmentInteractionListener ?,
-    private val sdk: ScoscheSDK24,
+    private var sdk: ScoscheSDK24,
     private val callback: RhythmSDKDeviceCallback,
-    private val fitFileCallback: RhythmSDKFitFileCallback
+    private val fitFileCallback: RhythmSDKFitFileCallback,
+    private val application: Application // Add this parameter
+
 ) :
     RecyclerView.Adapter<ScannedDeviceRecyclerViewAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,7 +59,8 @@ class ScannedDeviceRecyclerViewAdapter(
     fun getDevices(): List<RhythmDevice> {
         return devices
     }
-
+    private val sharedViewModel: SharedViewModel
+        get() = (application  as Helper).sharedViewModel
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(
         mView
     ) {
@@ -70,11 +74,13 @@ class ScannedDeviceRecyclerViewAdapter(
             mConnectView = mView.findViewById(R.id.connect)
             mConnectView.setText("CONNECT")
             mView.isClickable = true
+
             mView.setOnClickListener {
                 if (null != mListener && mItem != null) {
-                    // fragment is attached to one) that an item has been selected.
+                    sdk = sharedViewModel.tmp_sdk
+                    sharedViewModel.tmp4.value = false
+                    sharedViewModel.tmp3.value = true
                     sdk.connectDevice(mItem, callback, fitFileCallback)
-
                 }
             }
         }

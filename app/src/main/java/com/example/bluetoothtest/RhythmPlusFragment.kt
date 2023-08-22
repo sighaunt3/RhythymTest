@@ -45,6 +45,8 @@ class RhythmPlusFragment : Fragment() {
     ): View {
         val view: View = inflater.inflate(com.example.bluetoothtest.R.layout.fragment_rhthym_plus, container, false)
         var age = sharedview.age_data.value
+        var caloriessec = 0.0
+        var caloriesmin = 0.0
         var height = sharedview.height_data.value
         var weight = sharedview.weight_data.value
         val button = view.findViewById<Button>(R.id.button3)
@@ -59,7 +61,8 @@ class RhythmPlusFragment : Fragment() {
         recyclerView?.adapter = ScannedDeviceRecyclerViewAdapter(
             ArrayList<RhythmDevice>(), mListener, (activity as MainActivity?)?.getSdk()!!,
             (activity as MainActivity?)!!,
-            (activity as MainActivity?)!!
+            (activity as MainActivity?)!!,
+            requireActivity().application
         )
         adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
         println("bart3111")
@@ -72,6 +75,7 @@ class RhythmPlusFragment : Fragment() {
         firmwareVersionField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.firmwareVersionField)
         sharedview.hr.value = 0.0
         cal?.text = "0.0"
+        println("24")
         requireActivity().startForegroundService(
             Intent(
                 context,
@@ -81,6 +85,9 @@ class RhythmPlusFragment : Fragment() {
 
 
         button.setOnClickListener {
+            requireActivity().stopService(Intent(context, BackgroundService::class.java))
+            sharedview.tmp.value = true
+
             val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
             if (mBluetoothAdapter.isEnabled) {
                 mBluetoothAdapter.disable()
@@ -88,22 +95,39 @@ class RhythmPlusFragment : Fragment() {
                 requireActivity().stopService(Intent(context, BackgroundService::class.java))
 
             }
-
+            val recyclerView = view.findViewById<RecyclerView>(R.id.rech)
+            recyclerView?.adapter = ScannedDeviceRecyclerViewAdapter(
+                ArrayList<RhythmDevice>(), mListener, (activity as MainActivity?)?.getSdk()!!,
+                (activity as MainActivity?)!!,
+                (activity as MainActivity?)!!,
+                requireActivity().application
+            )
+            adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
+            total_calories = 0.0
+            heartRateField?.text = "---"
+            batteryField?.text = "---"
+            cal?.text = "0.0"
 
         }
 
         sharedview.tmp2.observe(viewLifecycleOwner){
-            var total_result = sharedview.hr.value!! /60.0
-            bmr = (weight.toString().toDouble() * 10) + (6.25*height.toString().toDouble()) + (age.toString().toDouble()*5) + 5
-            adjustedbmr = bmr.toDouble()*(1+(total_result-50)/100)
-            println(adjustedbmr)
-            val caloriesmin = adjustedbmr/1440
-            val caloriessec = caloriesmin/60
-            total_calories += caloriessec.toDouble()
-            println(caloriessec)
-            cal?.text = total_calories.toString()
+            println("UPDATED")
+            println(sharedview.tmp2.value)
+            if(sharedview.tmp3.value == false){
+                var total_result = sharedview.hr.value!! /60.0
+                bmr = (weight.toString().toDouble() * 10) + (6.25*height.toString().toDouble()) + (age.toString().toDouble()*5) + 5
+                adjustedbmr = bmr.toDouble()*(1+(total_result-50)/100)
+                caloriesmin = adjustedbmr/1440
+                caloriessec = caloriesmin/60
+                total_calories += caloriessec.toDouble()
+                println(caloriessec)
+                cal?.text = total_calories.toString()
+                sharedview.tmp3.value = true
+            }
+
 
         }
+
 
         return view
     }
@@ -151,7 +175,8 @@ class RhythmPlusFragment : Fragment() {
                     (mutableDevicesList ?: emptyList()) as MutableList<RhythmDevice>, mListener,
                     (activity as MainActivity?)?.getSdk()!!,
                     (activity as MainActivity?)!!,
-                    (activity as MainActivity?)!!
+                    (activity as MainActivity?)!!,
+                    requireActivity().application
                 )
 
                 recyclerView?.adapter = newAdapter // Set the new adapter
@@ -171,6 +196,7 @@ class RhythmPlusFragment : Fragment() {
         sharedview.heart_rate.value = heartRate
         println("in heart")
         println(sharedview.heart_rate.value)
+
 
     }
 

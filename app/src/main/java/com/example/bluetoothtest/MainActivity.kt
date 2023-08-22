@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
             ).addToBackStack(null).commit()
             println("HERE")
             sdk.startScan(this)
+            sharedViewModel.tmp_sdk = sdk
 
         }
 
@@ -96,6 +97,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
 
     override fun deviceLost(device: RhythmDevice?) {
         println("DEVICE LOST")
+
         val fragmentManager = supportFragmentManager
         val f = fragmentManager.findFragmentByTag("RhythmPlusFragment")
         if (f != null) {
