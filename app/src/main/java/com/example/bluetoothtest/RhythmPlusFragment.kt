@@ -86,7 +86,6 @@ class RhythmPlusFragment : Fragment() {
 
         button.setOnClickListener {
             requireActivity().stopService(Intent(context, BackgroundService::class.java))
-            sharedview.tmp.value = true
 
             val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
             if (mBluetoothAdapter.isEnabled) {
@@ -95,6 +94,11 @@ class RhythmPlusFragment : Fragment() {
                 requireActivity().stopService(Intent(context, BackgroundService::class.java))
 
             }
+            sharedview.tmp.value = true
+            total_calories = 0.0
+            heartRateField?.text = "---"
+            batteryField?.text = "---"
+            cal?.text = "0.0"
             val recyclerView = view.findViewById<RecyclerView>(R.id.rech)
             recyclerView?.adapter = ScannedDeviceRecyclerViewAdapter(
                 ArrayList<RhythmDevice>(), mListener, (activity as MainActivity?)?.getSdk()!!,
@@ -103,10 +107,8 @@ class RhythmPlusFragment : Fragment() {
                 requireActivity().application
             )
             adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
-            total_calories = 0.0
-            heartRateField?.text = "---"
-            batteryField?.text = "---"
-            cal?.text = "0.0"
+
+
 
         }
 

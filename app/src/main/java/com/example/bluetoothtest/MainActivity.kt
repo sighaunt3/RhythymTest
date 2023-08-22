@@ -1,5 +1,6 @@
 package com.example.bluetoothtest
 
+import android.bluetooth.BluetoothAdapter
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -48,7 +49,18 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
                 "RhythmPlusFragment"
             ).addToBackStack(null).commit()
             println("HERE")
-            sdk.startScan(this)
+            val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+            if (mBluetoothAdapter.isEnabled) {
+                println("Alo")
+                sdk.startScan(this)
+
+
+            }
+            else{
+                mBluetoothAdapter.enable()
+                sharedViewModel.tmp.value = false
+
+            }
             sharedViewModel.tmp_sdk = sdk
 
         }
@@ -56,14 +68,14 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
 
         try {
 
-                println("testtt")
-                fragment = LoginFragment::class.java.newInstance()
-                supportFragmentManager.beginTransaction().replace(
-                    com.example.bluetoothtest.R.id.flContent,
-                    fragment,
-                    "LoginFragment"
-                ).addToBackStack(null).commit()
-                println("HERE")
+            println("testtt")
+            fragment = LoginFragment::class.java.newInstance()
+            supportFragmentManager.beginTransaction().replace(
+                com.example.bluetoothtest.R.id.flContent,
+                fragment,
+                "LoginFragment"
+            ).addToBackStack(null).commit()
+            println("HERE")
 
             println("test")
         } catch (e: Exception) {
