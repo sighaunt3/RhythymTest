@@ -1,6 +1,5 @@
 package com.example.bluetoothtest
 
-import android.bluetooth.BluetoothAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.scosche.sdk24.ScoscheSDK24
@@ -13,10 +12,10 @@ class SharedViewModel: ViewModel() {
     var tmp:MutableLiveData<Boolean> = MutableLiveData()
     var tmp2:MutableLiveData<Boolean> = MutableLiveData()
     val heart_rate: MutableLiveData<String> = MutableLiveData()
-     lateinit var tmp_sdk: ScoscheSDK24
+    lateinit var tmp_sdk: ScoscheSDK24
     var tmp3:MutableLiveData<Boolean> = MutableLiveData()
     var tmp4:MutableLiveData<Boolean> = MutableLiveData()
-    var tmp5:MutableLiveData<BluetoothAdapter> = MutableLiveData()
+    var tmp5:MutableLiveData<String> = MutableLiveData()
 
 
 

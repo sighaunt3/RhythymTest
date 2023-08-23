@@ -42,18 +42,19 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
         var fragment: Fragment? = null
         sharedViewModel.tmp.observe(this){
             println("cool")
-            var xd: Fragment = RhythmPlusFragment::class.java.newInstance()
-            supportFragmentManager.beginTransaction().replace(
-                com.example.bluetoothtest.R.id.flContent,
-                xd,
-                "RhythmPlusFragment"
-            ).addToBackStack(null).commit()
-            println("HERE")
+
             val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
             if (mBluetoothAdapter.isEnabled) {
                 println("Alo")
-                sdk.startScan(this)
 
+                sdk.startScan(this)
+                var xd: Fragment = RhythmPlusFragment::class.java.newInstance()
+                supportFragmentManager.beginTransaction().replace(
+                    com.example.bluetoothtest.R.id.flContent,
+                    xd,
+                    "RhythmPlusFragment"
+                ).addToBackStack(null).commit()
+                println("HERE")
 
             }
             else{

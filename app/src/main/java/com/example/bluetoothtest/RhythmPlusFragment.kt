@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.scosche.sdk24.RhythmDevice
 import com.scosche.sdk24.ScoscheSDK24
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 
 class RhythmPlusFragment : Fragment() {
@@ -76,12 +78,19 @@ class RhythmPlusFragment : Fragment() {
         sharedview.hr.value = 0.0
         cal?.text = "0.0"
         println("24")
-        requireActivity().startForegroundService(
-            Intent(
-                context,
-                BackgroundService::class.java
-            )
-        )
+            if(sharedview.tmp5.value == "YES") {
+                println("aloha")
+
+                requireActivity().startForegroundService(
+                    Intent(
+                        context,
+                        BackgroundService::class.java
+                    )
+                )
+                sharedview.tmp5.value = "NO"
+            }
+
+
 
 
         button.setOnClickListener {
@@ -123,7 +132,9 @@ class RhythmPlusFragment : Fragment() {
                 caloriessec = caloriesmin/60
                 total_calories += caloriessec.toDouble()
                 println(caloriessec)
-                cal?.text = total_calories.toString()
+                val bd = BigDecimal(total_calories)
+                val rounded = bd.setScale(3, RoundingMode.HALF_UP)
+                cal?.text = rounded.toDouble().toString()
                 sharedview.tmp3.value = true
             }
 

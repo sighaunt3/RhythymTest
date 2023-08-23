@@ -70,6 +70,7 @@ class BackgroundService: Service() {
 
     override fun onCreate() {
         super.onCreate()
+        println("STARTED")
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val name = "Foreground Service Channel"
@@ -125,6 +126,7 @@ class BackgroundService: Service() {
     }
 
     override fun onDestroy() {
+        println("DESTROYED")
         super.onDestroy()
         apihandler.removeCallbacks(broadcastRunnable)
     }
