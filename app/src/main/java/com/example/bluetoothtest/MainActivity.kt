@@ -120,7 +120,8 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     override fun deviceConnected(p0: RhythmDevice?) {
 
         runOnUiThread {
-            println("DEVICE CONNECTED")
+            println(p0.toString())
+            sharedViewModel.tmp7.value = p0.toString()
             val rhythmPlusFragment = RhythmPlusFragment()
             supportFragmentManager.beginTransaction()
                 .replace(com.example.bluetoothtest.R.id.flContent, rhythmPlusFragment, "RhythmPlusFragment")

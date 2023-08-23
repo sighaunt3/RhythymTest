@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -80,7 +81,8 @@ class RhythmPlusFragment : Fragment() {
         println("24")
             if(sharedview.tmp5.value == "YES") {
                 println("aloha")
-
+                view.findViewById<CardView>(R.id.test_card).visibility = View.VISIBLE
+                view.findViewById<TextView>(R.id.card_txt).text = sharedview.tmp7.value
                 requireActivity().startForegroundService(
                     Intent(
                         context,

@@ -85,6 +85,9 @@ class ScannedDeviceRecyclerViewAdapter(
                     sdk = sharedViewModel.tmp_sdk
                     sharedViewModel.tmp4.value = false
                     sharedViewModel.tmp5.value = "YES"
+                    println("yis")
+
+                    println(devices[0])
                     sdk.connectDevice(mItem, callback, fitFileCallback)
                 }
             }
