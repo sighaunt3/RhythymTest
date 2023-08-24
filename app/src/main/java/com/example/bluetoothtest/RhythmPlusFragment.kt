@@ -1,5 +1,6 @@
 package com.example.bluetoothtest
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
@@ -7,13 +8,17 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.Switch
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -56,6 +61,7 @@ class RhythmPlusFragment : Fragment() {
         var cal = view?.findViewById<TextView>(R.id.calories)
         val permission = android.Manifest.permission.BLUETOOTH_SCAN
         val requestCode = 123 // A unique request cod
+
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), requestCode)
         val permission2 = android.Manifest.permission.BLUETOOTH_CONNECT
         val requestCode2 = 2002 // A unique request code
@@ -69,6 +75,19 @@ class RhythmPlusFragment : Fragment() {
         )
         adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
         println("bart3111")
+        val switch = view.findViewById<Switch>(R.id.switch2)
+        val loader = view.findViewById<ProgressBar>(R.id.progressBar)
+        val rec_view = view.findViewById<RecyclerView>(R.id.rech)
+        val layout = view.findViewById<ConstraintLayout>(R.id.constraintLayout2)
+        layout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        switch.setOnClickListener {
+
+           val v = if(rec_view.visibility == View.GONE) View.VISIBLE else View.GONE
+            rec_view.visibility = v
+            val t = if(loader.visibility == View.GONE) View.VISIBLE else View.GONE
+            loader.visibility = t
+
+        }
         println(adapter!!.itemCount)
         val permission3 = android.Manifest.permission.POST_NOTIFICATIONS
         val requestCode3 = 2020 // A unique request code
@@ -81,7 +100,6 @@ class RhythmPlusFragment : Fragment() {
         println("24")
             if(sharedview.tmp5.value == "YES") {
                 println("aloha")
-                view.findViewById<CardView>(R.id.test_card).visibility = View.VISIBLE
                 view.findViewById<TextView>(R.id.card_txt).text = sharedview.tmp7.value
                 requireActivity().startForegroundService(
                     Intent(
@@ -176,6 +194,7 @@ class RhythmPlusFragment : Fragment() {
             if (adapter?.addDevice(device) == true) {
 
                 adapter?.notifyDataSetChanged()
+
             }
         }
     }
@@ -183,18 +202,17 @@ class RhythmPlusFragment : Fragment() {
     fun removeDevice(device: RhythmDevice) {
         for (rhythmDevice: RhythmDevice in adapter?.getDevices()!!) {
             if ((rhythmDevice.getName() == device.getName())) {
+                println("REMOVE DEVICE")
                 val mutableDevicesList = adapter?.getDevices()?.toMutableList()
                 mutableDevicesList?.remove(rhythmDevice)
-
-                val newAdapter = ScannedDeviceRecyclerViewAdapter(
-                    (mutableDevicesList ?: emptyList()) as MutableList<RhythmDevice>, mListener,
-                    (activity as MainActivity?)?.getSdk()!!,
+                val recyclerView = view?.findViewById<RecyclerView>(R.id.rech)
+                recyclerView?.adapter = ScannedDeviceRecyclerViewAdapter(
+                    (mutableDevicesList ?: emptyList()) as MutableList<RhythmDevice>, mListener, (activity as MainActivity?)?.getSdk()!!,
                     (activity as MainActivity?)!!,
                     (activity as MainActivity?)!!,
                     requireActivity().application
                 )
-
-                recyclerView?.adapter = newAdapter // Set the new adapter
+                adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
                 println("NEW RECYCLER")
             }
         }

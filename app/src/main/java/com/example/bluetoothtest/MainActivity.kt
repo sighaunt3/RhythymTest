@@ -2,6 +2,9 @@ package com.example.bluetoothtest
 
 import android.bluetooth.BluetoothAdapter
 import android.os.Bundle
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -37,11 +40,13 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
 
 
         sdk = ScoscheSDK24(this)
+
         println("main")
         println(sharedViewModel.tmp)
         var fragment: Fragment? = null
         sharedViewModel.tmp.observe(this){
             println("cool")
+
 
             val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
             if (mBluetoothAdapter.isEnabled) {
@@ -86,10 +91,10 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     }
 
     override fun deviceFound(p0: RhythmDevice?) {
-        println("ezhel ais cash")
         val fragmentManager: FragmentManager = supportFragmentManager
         val f: Fragment? = fragmentManager.findFragmentByTag("RhythmPlusFragment")
-
+        val bar = findViewById<ProgressBar>(R.id.progressBar)
+        bar.visibility = View.INVISIBLE
         if (f != null && p0!!.getName() != null) {
             (f as RhythmPlusFragment).handleBluetoothDevice(p0)
         }
@@ -110,6 +115,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
 
     override fun deviceLost(device: RhythmDevice?) {
         println("DEVICE LOST")
+
 
         val fragmentManager = supportFragmentManager
         val f = fragmentManager.findFragmentByTag("RhythmPlusFragment")
