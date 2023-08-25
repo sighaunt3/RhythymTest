@@ -8,11 +8,11 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Switch
 import android.widget.TextView
@@ -23,7 +23,6 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.scosche.sdk24.RhythmDevice
-import com.scosche.sdk24.ScoscheSDK24
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -78,6 +77,10 @@ class RhythmPlusFragment : Fragment() {
         val switch = view.findViewById<Switch>(R.id.switch2)
         val loader = view.findViewById<ProgressBar>(R.id.progressBar)
         val rec_view = view.findViewById<RecyclerView>(R.id.rech)
+        val card2 = view.findViewById<CardView>(R.id.cardViewxd2)
+        val text_card2 = view.findViewById<TextView>(R.id.textView2)
+        text_card2.text = "Last Connected Device"
+        button.visibility = View.INVISIBLE
         val layout = view.findViewById<ConstraintLayout>(R.id.constraintLayout2)
         layout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         switch.setOnClickListener {
@@ -89,6 +92,8 @@ class RhythmPlusFragment : Fragment() {
 
         }
         println(adapter!!.itemCount)
+        view.findViewById<TextView>(R.id.card_txt).text = sharedview.tmp7.value
+
         val permission3 = android.Manifest.permission.POST_NOTIFICATIONS
         val requestCode3 = 2020 // A unique request code
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission3), requestCode3)
@@ -99,8 +104,12 @@ class RhythmPlusFragment : Fragment() {
         cal?.text = "0.0"
         println("24")
             if(sharedview.tmp5.value == "YES") {
+
                 println("aloha")
                 view.findViewById<TextView>(R.id.card_txt).text = sharedview.tmp7.value
+                text_card2.text = "Currently Connected Device"
+                button.visibility = View.VISIBLE
+
                 requireActivity().startForegroundService(
                     Intent(
                         context,
@@ -114,6 +123,14 @@ class RhythmPlusFragment : Fragment() {
 
 
         button.setOnClickListener {
+            button.visibility = View.INVISIBLE
+            view.findViewById<TextView>(R.id.card_txt).text = ""
+            val prog = view.findViewById<ProgressBar>(R.id.progressBar2)
+            prog.visibility = View.VISIBLE
+            val img = view.findViewById<ImageView>(R.id.imageView2)
+            img.visibility = View.INVISIBLE
+
+            text_card2.text = ""
             requireActivity().stopService(Intent(context, BackgroundService::class.java))
 
             val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -123,6 +140,7 @@ class RhythmPlusFragment : Fragment() {
                 requireActivity().stopService(Intent(context, BackgroundService::class.java))
 
             }
+
             sharedview.tmp.value = true
             total_calories = 0.0
             heartRateField?.text = "---"

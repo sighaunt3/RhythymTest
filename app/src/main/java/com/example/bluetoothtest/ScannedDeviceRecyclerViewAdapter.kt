@@ -84,6 +84,7 @@ class ScannedDeviceRecyclerViewAdapter(
                 if (null != mListener && mItem != null) {
                     sdk = sharedViewModel.tmp_sdk
                     sharedViewModel.tmp4.value = false
+                    sharedViewModel.tmp7.value = mIdView.text.toString()
                     sharedViewModel.tmp5.value = "YES"
                     println("yis")
 

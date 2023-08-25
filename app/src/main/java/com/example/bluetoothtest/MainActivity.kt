@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
 
         runOnUiThread {
             println(p0.toString())
-            sharedViewModel.tmp7.value = p0.toString()
+            println("CONNECTED")
             val rhythmPlusFragment = RhythmPlusFragment()
             supportFragmentManager.beginTransaction()
                 .replace(com.example.bluetoothtest.R.id.flContent, rhythmPlusFragment, "RhythmPlusFragment")
