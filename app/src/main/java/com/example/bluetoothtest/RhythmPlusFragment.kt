@@ -98,7 +98,7 @@ class RhythmPlusFragment : Fragment() {
         val requestCode3 = 2020 // A unique request code
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission3), requestCode3)
         heartRateField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.heart_rate)
-        batteryField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.batteryLevelField)
+        batteryField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.batterylevelfield)
         firmwareVersionField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.firmwareVersionField)
         sharedview.hr.value = 0.0
         cal?.text = "0.0"
