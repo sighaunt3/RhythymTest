@@ -11,6 +11,8 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -100,15 +102,29 @@ class RhythmPlusFragment : Fragment() {
         heartRateField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.heart_rate)
         batteryField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.batterylevelfield)
         firmwareVersionField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.firmwareVersionField)
+        val img = view.findViewById<ImageView>(R.id.imageView9)
+
         sharedview.hr.value = 0.0
         cal?.text = "0.0"
         println("24")
             if(sharedview.tmp5.value == "YES") {
-
                 println("aloha")
+                val img2 = view.findViewById<ImageView>(R.id.imageView13)
+                img2.setImageResource(R.drawable.icons8_circle_96___green)
                 view.findViewById<TextView>(R.id.card_txt).text = sharedview.tmp7.value
                 text_card2.text = "Currently Connected Device"
+                val anim2: Animation = AlphaAnimation(0.0f, 1.0f)
+
                 button.visibility = View.VISIBLE
+                img.visibility = View.VISIBLE
+
+
+                anim2.duration = 650 //You can manage the blinking time with this parameter
+
+                anim2.startOffset = 20
+                anim2.repeatMode = Animation.REVERSE
+                anim2.repeatCount = Animation.INFINITE
+                img2.startAnimation(anim2)
 
                 requireActivity().startForegroundService(
                     Intent(
@@ -124,12 +140,12 @@ class RhythmPlusFragment : Fragment() {
 
         button.setOnClickListener {
             button.visibility = View.INVISIBLE
+            img.visibility = View.INVISIBLE
             view.findViewById<TextView>(R.id.card_txt).text = ""
             val prog = view.findViewById<ProgressBar>(R.id.progressBar2)
             prog.visibility = View.VISIBLE
-            val img = view.findViewById<ImageView>(R.id.imageView2)
-            img.visibility = View.INVISIBLE
-
+            val img3 = view.findViewById<ImageView>(R.id.imageView2)
+            img3.visibility = View.INVISIBLE
             text_card2.text = ""
             requireActivity().stopService(Intent(context, BackgroundService::class.java))
 
