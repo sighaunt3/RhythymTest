@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Switch
@@ -77,21 +78,35 @@ class RhythmPlusFragment : Fragment() {
         adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
         println("bart3111")
         val switch = view.findViewById<Switch>(R.id.switch2)
+        val switch2 = view.findViewById<Switch>(R.id.switch666)
         val loader = view.findViewById<ProgressBar>(R.id.progressBar)
         val rec_view = view.findViewById<RecyclerView>(R.id.rech)
         val card2 = view.findViewById<CardView>(R.id.cardViewxd2)
         val text_card2 = view.findViewById<TextView>(R.id.textView2)
         text_card2.text = "Last Connected Device"
-        button.visibility = View.INVISIBLE
-        val layout = view.findViewById<ConstraintLayout>(R.id.constraintLayout2)
-        layout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-        switch.setOnClickListener {
 
-           val v = if(rec_view.visibility == View.GONE) View.VISIBLE else View.GONE
+        var edit_test = view.findViewById<EditText>(R.id.editTextText)
+        var edit_test2 = view.findViewById<EditText>(R.id.editTextText2)
+        var edit_test3 = view.findViewById<EditText>(R.id.editTextText3)
+
+        var but = view.findViewById<Button>(R.id.confirmbutton)
+        switch2.setOnClickListener {
+            val l = if(but.visibility == View.GONE) View.VISIBLE else View.GONE
+            but.visibility = l
+           val v = if(edit_test.visibility == View.GONE) View.VISIBLE else View.GONE
+            edit_test.visibility = v
+            val t = if(edit_test2.visibility == View.GONE) View.VISIBLE else View.GONE
+            edit_test2.visibility = t
+            val x = if(edit_test3.visibility == View.GONE) View.VISIBLE else View.GONE
+            edit_test3.visibility = x
+
+        }
+
+        switch.setOnClickListener {
+            val v = if(rec_view.visibility == View.GONE) View.VISIBLE else View.GONE
             rec_view.visibility = v
             val t = if(loader.visibility == View.GONE) View.VISIBLE else View.GONE
             loader.visibility = t
-
         }
         println(adapter!!.itemCount)
         view.findViewById<TextView>(R.id.card_txt).text = sharedview.tmp7.value
