@@ -74,16 +74,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
 
         try {
 
-            println("testtt")
-            fragment = LoginFragment::class.java.newInstance()
-            supportFragmentManager.beginTransaction().replace(
-                com.example.bluetoothtest.R.id.flContent,
-                fragment,
-                "LoginFragment"
-            ).addToBackStack(null).commit()
-            println("HERE")
-
-            println("test")
+           sharedViewModel.tmp.value = true
         } catch (e: Exception) {
             e.printStackTrace()
         }

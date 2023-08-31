@@ -53,7 +53,27 @@ class RhythmPlusFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         val view: View = inflater.inflate(com.example.bluetoothtest.R.layout.fragment_rhthym_plus, container, false)
+        var edit_test = view.findViewById<EditText>(R.id.editTextText)
+        var edit_test2 = view.findViewById<EditText>(R.id.editTextText2)
+        var edit_test3 = view.findViewById<EditText>(R.id.editTextText3)
+
+        var but = view.findViewById<Button>(R.id.confirmbutton)
+        val img3 = view.findViewById<ImageView>(R.id.imageView14)
+        img3.visibility = View.VISIBLE
+
+
+        but.setOnClickListener {
+            val weight = edit_test2.text
+            val age = edit_test.text
+            val height = edit_test3.text
+            sharedview.age_data.value = age.toString()
+            sharedview.height_data.value = height.toString()
+            sharedview.weight_data.value = weight.toString()
+            img3.visibility = View.INVISIBLE
+
+        }
         var age = sharedview.age_data.value
         var caloriessec = 0.0
         var caloriesmin = 0.0
@@ -78,29 +98,14 @@ class RhythmPlusFragment : Fragment() {
         adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
         println("bart3111")
         val switch = view.findViewById<Switch>(R.id.switch2)
-        val switch2 = view.findViewById<Switch>(R.id.switch666)
         val loader = view.findViewById<ProgressBar>(R.id.progressBar)
         val rec_view = view.findViewById<RecyclerView>(R.id.rech)
         val card2 = view.findViewById<CardView>(R.id.cardViewxd2)
         val text_card2 = view.findViewById<TextView>(R.id.textView2)
         text_card2.text = "Last Connected Device"
 
-        var edit_test = view.findViewById<EditText>(R.id.editTextText)
-        var edit_test2 = view.findViewById<EditText>(R.id.editTextText2)
-        var edit_test3 = view.findViewById<EditText>(R.id.editTextText3)
 
-        var but = view.findViewById<Button>(R.id.confirmbutton)
-        switch2.setOnClickListener {
-            val l = if(but.visibility == View.GONE) View.VISIBLE else View.GONE
-            but.visibility = l
-           val v = if(edit_test.visibility == View.GONE) View.VISIBLE else View.GONE
-            edit_test.visibility = v
-            val t = if(edit_test2.visibility == View.GONE) View.VISIBLE else View.GONE
-            edit_test2.visibility = t
-            val x = if(edit_test3.visibility == View.GONE) View.VISIBLE else View.GONE
-            edit_test3.visibility = x
 
-        }
 
         switch.setOnClickListener {
             val v = if(rec_view.visibility == View.GONE) View.VISIBLE else View.GONE
@@ -118,6 +123,8 @@ class RhythmPlusFragment : Fragment() {
         batteryField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.batterylevelfield)
         firmwareVersionField = view.findViewById<TextView>(com.example.bluetoothtest.R.id.firmwareVersionField)
         val img = view.findViewById<ImageView>(R.id.imageView9)
+
+
 
         sharedview.hr.value = 0.0
         cal?.text = "0.0"
@@ -149,6 +156,7 @@ class RhythmPlusFragment : Fragment() {
                 )
                 sharedview.tmp5.value = "NO"
             }
+
 
 
 

@@ -10,19 +10,19 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewxd"
-        android:layout_width="300dp"
+        android:layout_width="286dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:animateLayoutChanges="true"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cardView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardViewxd2"
-        app:layout_constraintVertical_bias="0.13999999">
+        app:layout_constraintVertical_bias="0.07999998">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/test123"
@@ -33,11 +33,12 @@
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/textView4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.060000002"
+                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/icons8_device_90___" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -64,10 +65,10 @@
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="122dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:fontFamily="@font/open_sans"
                 android:paddingHorizontal="10dp"
-                android:paddingVertical="5dp"
+                android:paddingVertical="0dp"
                 android:text="DEVICES"
                 android:textColor="#7182EF"
                 android:textSize="24sp"
@@ -116,10 +117,11 @@
         android:layout_margin="10dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardViewxd2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView3">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
@@ -392,7 +394,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -504,26 +506,29 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
         android:layout_width="wrap_content"
-        android:layout_height="125dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:layout_marginTop="273dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.47000003">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dd"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#e8e8f9">
+            android:layout_height="150dp"
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/imageView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:paddingLeft="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/icons8_head_profile_96___" />
@@ -572,16 +577,6 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView11"
                 app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
 
-            <Switch
-                android:id="@+id/switch666"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView11"
-                app:layout_constraintVertical_bias="1.0" />
-
             <Button
                 android:id="@+id/confirmbutton"
                 android:layout_width="wrap_content"
@@ -594,6 +589,36 @@
                 app:layout_constraintStart_toEndOf="@+id/editTextText2"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.96" />
+
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.91"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.00999999"
+                app:srcCompat="@drawable/icons8_error_96___" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans"
+                android:paddingLeft="10dp"
+                android:rotation="270"
+                android:text="User Info"
+                android:textColor="#7182EF"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView11"
+                app:layout_constraintVertical_bias="0.19" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
