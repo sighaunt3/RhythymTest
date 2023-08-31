@@ -62,6 +62,17 @@ class RhythmPlusFragment : Fragment() {
         var but = view.findViewById<Button>(R.id.confirmbutton)
         val img3 = view.findViewById<ImageView>(R.id.imageView14)
         img3.visibility = View.VISIBLE
+        val lab1 = view.findViewById<TextView>(R.id.height_label)
+        val lab2 = view.findViewById<TextView>(R.id.weight_label)
+        val lab3 = view.findViewById<TextView>(R.id.age_label)
+        val ic = view.findViewById<ImageView>(R.id.imageView15)
+        val ic2 = view.findViewById<ImageView>(R.id.imageView16)
+        val ic3 = view.findViewById<ImageView>(R.id.imageView18)
+        val t = view.findViewById<TextView>(R.id.textView12)
+        val t2 = view.findViewById<TextView>(R.id.textView13)
+        val t3 = view.findViewById<TextView>(R.id.textView14)
+
+
 
 
         but.setOnClickListener {
@@ -71,7 +82,23 @@ class RhythmPlusFragment : Fragment() {
             sharedview.age_data.value = age.toString()
             sharedview.height_data.value = height.toString()
             sharedview.weight_data.value = weight.toString()
-            img3.visibility = View.INVISIBLE
+            t.visibility = View.VISIBLE
+            t2.visibility = View.VISIBLE
+            t3.visibility = View.VISIBLE
+            ic.visibility = View.VISIBLE
+            ic2.visibility = View.VISIBLE
+            ic3.visibility = View.VISIBLE
+            lab1.visibility = View.VISIBLE
+
+            lab2.visibility = View.VISIBLE
+            lab3.visibility = View.VISIBLE
+
+            img3.visibility = View.GONE
+            but.visibility = View.GONE
+            edit_test.visibility = View.GONE
+            edit_test2.visibility = View.GONE
+            edit_test3.visibility = View.GONE
+
 
         }
         var age = sharedview.age_data.value
