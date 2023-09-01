@@ -17,6 +17,9 @@ class SharedViewModel: ViewModel() {
     var tmp4:MutableLiveData<Boolean> = MutableLiveData()
     var tmp5:MutableLiveData<String> = MutableLiveData()
     var tmp7:MutableLiveData<String> = MutableLiveData()
+    var clicked:MutableLiveData<Boolean> = MutableLiveData()
+    var clicked2:MutableLiveData<Boolean> = MutableLiveData()
+
 
 
 

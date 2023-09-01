@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothAdapter
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -47,7 +46,9 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
         sharedViewModel.tmp.observe(this){
             println("cool")
 
-
+            val permission2 = android.Manifest.permission.BLUETOOTH_CONNECT
+            val requestCode2 = 2002 // A unique request code
+            ActivityCompat.requestPermissions(this, arrayOf(permission2), requestCode2)
             val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
             if (mBluetoothAdapter.isEnabled) {
                 println("Alo")

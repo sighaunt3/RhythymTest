@@ -15,6 +15,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Switch
@@ -60,40 +61,65 @@ class RhythmPlusFragment : Fragment() {
         var edit_test3 = view.findViewById<EditText>(R.id.editTextText3)
 
         var but = view.findViewById<Button>(R.id.confirmbutton)
-        val img3 = view.findViewById<ImageView>(R.id.imageView14)
-        img3.visibility = View.VISIBLE
-        val lab1 = view.findViewById<TextView>(R.id.height_label)
-        val lab2 = view.findViewById<TextView>(R.id.weight_label)
-        val lab3 = view.findViewById<TextView>(R.id.age_label)
-        val ic = view.findViewById<ImageView>(R.id.imageView15)
-        val ic2 = view.findViewById<ImageView>(R.id.imageView16)
-        val ic3 = view.findViewById<ImageView>(R.id.imageView18)
-        val t = view.findViewById<TextView>(R.id.textView12)
-        val t2 = view.findViewById<TextView>(R.id.textView13)
-        val t3 = view.findViewById<TextView>(R.id.textView14)
+
+
+        //create sharedview element that checks if enter button is clicked. If clicked old thing invisible so the code but.setonclick runs
+
+        //if not clicked then make it be false when  it is false it will just launch as normal
+
+        //when button is clicked set the true to false
+
+        //thus there will be one if else. if bool is true do the thing right below. if it is false dont do anything
+        //only true
+        val edit = view.findViewById<ImageButton>(R.id.edit_button)
+        edit.setOnClickListener {
+
+            val edit = view.findViewById<ImageButton>(R.id.edit_button)
+
+            if(sharedview.clicked2.value ==true){
+                sharedview.clicked.value = false
+                but.visibility = View.VISIBLE
+                edit_test.visibility = View.VISIBLE
+                edit_test2.visibility = View.VISIBLE
+                edit_test3.visibility = View.VISIBLE
+                edit.rotation = 90.0f
+                sharedview.clicked2.value = false
+            }
+            else{
+
+                edit.rotation = 270.0f
+
+                but.visibility = View.GONE
+                edit_test.visibility = View.GONE
+                edit_test2.visibility = View.GONE
+                edit_test3.visibility = View.GONE
+                sharedview.clicked2.value = true
+
+            }
 
 
 
+        }
+        if(sharedview.clicked.value == true){
+            val edit = view.findViewById<ImageButton>(R.id.edit_button)
+            edit.visibility = View.VISIBLE
+            but.visibility = View.GONE
+            edit_test.visibility = View.GONE
+            edit_test2.visibility = View.GONE
+            edit_test3.visibility = View.GONE
+        }
 
         but.setOnClickListener {
             val weight = edit_test2.text
             val age = edit_test.text
             val height = edit_test3.text
+            val edit = view.findViewById<ImageButton>(R.id.edit_button)
+            edit.rotation = 270.0F
             sharedview.age_data.value = age.toString()
             sharedview.height_data.value = height.toString()
             sharedview.weight_data.value = weight.toString()
-            t.visibility = View.VISIBLE
-            t2.visibility = View.VISIBLE
-            t3.visibility = View.VISIBLE
-            ic.visibility = View.VISIBLE
-            ic2.visibility = View.VISIBLE
-            ic3.visibility = View.VISIBLE
-            lab1.visibility = View.VISIBLE
-
-            lab2.visibility = View.VISIBLE
-            lab3.visibility = View.VISIBLE
-
-            img3.visibility = View.GONE
+            edit.visibility = View.VISIBLE
+            sharedview.clicked.value = true
             but.visibility = View.GONE
             edit_test.visibility = View.GONE
             edit_test2.visibility = View.GONE
@@ -101,6 +127,7 @@ class RhythmPlusFragment : Fragment() {
 
 
         }
+
         var age = sharedview.age_data.value
         var caloriessec = 0.0
         var caloriesmin = 0.0
