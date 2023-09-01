@@ -142,6 +142,7 @@ class RhythmPlusFragment : Fragment() {
         val permission2 = android.Manifest.permission.BLUETOOTH_CONNECT
         val requestCode2 = 2002 // A unique request code
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission2), requestCode2)
+
         val recyclerView = view.findViewById<RecyclerView>(R.id.rech)
         recyclerView?.adapter = ScannedDeviceRecyclerViewAdapter(
             ArrayList<RhythmDevice>(), mListener, (activity as MainActivity?)?.getSdk()!!,
@@ -150,7 +151,6 @@ class RhythmPlusFragment : Fragment() {
             requireActivity().application
         )
         adapter = recyclerView?.adapter as ScannedDeviceRecyclerViewAdapter
-        println("bart3111")
         val switch = view.findViewById<Switch>(R.id.switch2)
         val loader = view.findViewById<ProgressBar>(R.id.progressBar)
         val rec_view = view.findViewById<RecyclerView>(R.id.rech)
@@ -183,33 +183,32 @@ class RhythmPlusFragment : Fragment() {
         sharedview.hr.value = 0.0
         cal?.text = "0.0"
         println("24")
-            if(sharedview.tmp5.value == "YES") {
-                println("aloha")
-                val img2 = view.findViewById<ImageView>(R.id.imageView13)
-                img2.setImageResource(R.drawable.icons8_circle_96___green)
-                view.findViewById<TextView>(R.id.card_txt).text = sharedview.tmp7.value
-                text_card2.text = "Currently Connected Device"
-                val anim2: Animation = AlphaAnimation(0.0f, 1.0f)
+        if(sharedview.tmp5.value == "YES") {
+            val img2 = view.findViewById<ImageView>(R.id.imageView13)
+            img2.setImageResource(R.drawable.icons8_circle_96___green)
+            view.findViewById<TextView>(R.id.card_txt).text = sharedview.tmp7.value
+            text_card2.text = "Currently Connected Device"
+            val anim2: Animation = AlphaAnimation(0.0f, 1.0f)
 
-                button.visibility = View.VISIBLE
-                img.visibility = View.VISIBLE
+            button.visibility = View.VISIBLE
+            img.visibility = View.VISIBLE
 
 
-                anim2.duration = 650 //You can manage the blinking time with this parameter
+            anim2.duration = 650 //You can manage the blinking time with this parameter
 
-                anim2.startOffset = 20
-                anim2.repeatMode = Animation.REVERSE
-                anim2.repeatCount = Animation.INFINITE
-                img2.startAnimation(anim2)
+            anim2.startOffset = 20
+            anim2.repeatMode = Animation.REVERSE
+            anim2.repeatCount = Animation.INFINITE
+            img2.startAnimation(anim2)
 
-                requireActivity().startForegroundService(
-                    Intent(
-                        context,
-                        BackgroundService::class.java
-                    )
+            requireActivity().startForegroundService(
+                Intent(
+                    context,
+                    BackgroundService::class.java
                 )
-                sharedview.tmp5.value = "NO"
-            }
+            )
+            sharedview.tmp5.value = "NO"
+        }
 
 
 
@@ -306,7 +305,7 @@ class RhythmPlusFragment : Fragment() {
 
                 adapter?.notifyDataSetChanged()
 
-            }
+            }   
         }
     }
 

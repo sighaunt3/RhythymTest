@@ -1,6 +1,7 @@
 package com.example.bluetoothtest
 
 import android.bluetooth.BluetoothAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -35,9 +36,18 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.bluetoothtest.R.layout.activity_main)
+        val permission = android.Manifest.permission.BLUETOOTH_SCAN
+        val requestCode = 123 // A unique request cod
 
 
+        val permission33 = android.Manifest.permission.ACCESS_FINE_LOCATION
+        val requestCode33 = 123 // A unique request cod
+        val permission34 = android.Manifest.permission.ACCESS_COARSE_LOCATION
 
+
+        val permission2 = android.Manifest.permission.BLUETOOTH_CONNECT
+        val requestCode2 = 123 // A unique request code
+        ActivityCompat.requestPermissions(this, arrayOf(permission2,permission33,permission,permission34), requestCode2)
         sdk = ScoscheSDK24(this)
 
         println("main")
@@ -46,12 +56,9 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
         sharedViewModel.tmp.observe(this){
             println("cool")
 
-            val permission2 = android.Manifest.permission.BLUETOOTH_CONNECT
-            val requestCode2 = 2002 // A unique request code
-            ActivityCompat.requestPermissions(this, arrayOf(permission2), requestCode2)
+
             val mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
             if (mBluetoothAdapter.isEnabled) {
-                println("Alo")
 
                 sdk.startScan(this)
                 var xd: Fragment = RhythmPlusFragment::class.java.newInstance()
@@ -75,7 +82,7 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
 
         try {
 
-           sharedViewModel.tmp.value = true
+            sharedViewModel.tmp.value = true
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -104,6 +111,8 @@ class MainActivity : AppCompatActivity(), RhythmSDKScanningCallback, RhythmSDKDe
             )        }
 
     }
+
+
 
     override fun deviceLost(device: RhythmDevice?) {
         println("DEVICE LOST")
