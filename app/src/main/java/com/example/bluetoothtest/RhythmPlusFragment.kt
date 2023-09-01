@@ -264,7 +264,7 @@ class RhythmPlusFragment : Fragment() {
                 total_calories += caloriessec.toDouble()
                 println(caloriessec)
                 val bd = BigDecimal(total_calories)
-                val rounded = bd.setScale(3, RoundingMode.HALF_UP)
+                val rounded = bd.setScale(4, RoundingMode.HALF_UP)
                 cal?.text = rounded.toDouble().toString()
                 sharedview.tmp3.value = true
             }
